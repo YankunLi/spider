@@ -50,11 +50,10 @@ class ConfParser(object):
         return items
 
     def is_exist_config_key(self, section, key):
-        try:
-            self.cf.get_string_value(section, key)
-            return True
-        except Exception as e:
-            return False
+            if key in self.cf.get_keys():
+                return True
+            else:
+                return False
 
 
 if __name__ == "__main__":
