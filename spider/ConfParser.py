@@ -50,7 +50,7 @@ class ConfParser(object):
         return items
 
     def is_exist_config_key(self, section, key):
-            if key in self.cf.get_keys():
+            if key in self.cf.options(section):
                 return True
             else:
                 return False
