@@ -47,6 +47,14 @@ class ConfParser(object):
     def get_ips(self, section, key):
         value = self.get_string_value(section, key)
         items = value.split(';')
+        return items
+
+    def is_exist_config_key(self, section, key):
+        try:
+            self.cf.get_string_value(section, key)
+            return True
+        except Exception as e:
+            return False
 
 
 if __name__ == "__main__":

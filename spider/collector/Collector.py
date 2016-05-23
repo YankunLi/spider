@@ -12,7 +12,7 @@ from spider.ConfParser import ConfParser
 
 PREFIX = "sunfire::ceph::store::"
 
-puppet_directory = "d:\\server\\"
+puppet_directory = "/tmp/puppet/"
 
 OSD_HOSTS_TYPE = ['sata_hosts', 'ssd_hosts']
 
@@ -97,7 +97,7 @@ def persist_hosts(hosts, service_type, osd_type=None):
                 enable_service(fd, host_map_service.get(service_type))
             else:
                 enable_service(fd, service_type)
-            #for osd host to persist spider    
+            #for osd host to persist spider
             if osd_type:
                 #specified spider type
                 specified_device_type(fd, osd_type)
@@ -279,18 +279,32 @@ class Collector(object):
 import sys
 
 def main():
-    path_config_file = "../../etc/spider/spider.conf"
+    global puppet_directory
+    if len(sys.argv) > 1:
+        if os.path.isfile(sys.argv[1]):
+            path_config_file = os.path.abspath(sys.argv[1])
+    else:
+        if not os.path.isfile("/etc/spider/spider.conf"):
+            print("ERROR:don't found config file in /etc/spider/")
+        path_config_file = "/etc/spider/spider.conf"
+
     conf = ConfParser(path_config_file)
+    if conf.is_exist_config_key('default', 'result_path'):
+        puppet_directory = conf.get_string_value('default', 'result_path')
+
+    if not os.path.isdir(puppet_directory):
+        os.makedirs(puppet_directory)
+
     collector = Collector(conf)
     collector()
-    
+
 
 if __name__ == "__main__":
 #     path_config_file = sys.argv[1]
 #     if sys.argv[2]:
 #         path_log_file =  sys.argv[2]
-#     
-#         
+#
+#
 #     conf = ConfParser(path_config_file)
     path_config_file = "../../etc/spider/spider.conf"
     conf = ConfParser(path_config_file)
