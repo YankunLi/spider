@@ -10,7 +10,7 @@ from spider.RemoteHost import RemoteHost
 from spider.ConfParser import ConfParser 
 
 
-PREFIX = "sunfire::ceph::store::"
+PREFIX = "sunfire::storage::ceph::cluster::"
 
 puppet_directory = "/tmp/puppet/"
 

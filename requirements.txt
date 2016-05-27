@@ -1,0 +1,4 @@
+pbr>=1.6
+configparser>=3.1
+paramiko>=2.0
+IPy>=0.7
